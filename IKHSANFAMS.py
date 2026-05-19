@@ -608,9 +608,36 @@ data_keluarga = [
     ("Lili Yanti", "P", "-", "-", "Teuku Kamaruzzaman"),
 
     ("Armiadi", "L", "-", "-", "Cut Intan Fitriani"),
-    ("Cut Intan Fitriani", "P", "Teuku Kamaruddin", "Fatimah Syam", "Armiadi")
+    ("Cut Intan Fitriani", "P", "Teuku Kamaruddin", "Fatimah Syam", "Armiadi"),
 
     # Sepupu dari ayah
+    ("Mustaqin", "L", "Saifullah", "Syamsiah", "-"),
+    ("Isnawati", "P", "Saifullah", "Syamsiah", "-"),
+    ("Khalis", "L", "Saifullah", "Syamsiah", "-"),
+
+    ("Muhammad Ikram", "L", "Ridwan", "Fauziah", "-"),
+    ("Muhammad Ayi", "L", "Ridwan", "Fauziah", "-"),
+    ("Kak Ti", "P", "Ridwan", "Fauziah", "-"),
+    ("Muzammil", "L", "Ridwan", "Fauziah", "-"),
+
+    ("Wina", "P", "Safruddin", "Wak Wi", "-"),
+
+    ("Muhammad Arif", "L", "Wak Laili", "Salahuddin", "-"),
+    ("Muhammad Reza", "L", "Wak Laili", "Salahuddin", "-"),
+    ("Muhammad Zahlul", "L", "Wak Laili", "Salahuddin", "-"),
+
+    ("Raisa", "P", "Eva Yanti", "Afifuddin", "-"),
+    ("Salsabila", "P", "Eva Yanti", "Afifuddin", "-"),
+    ("Molvi", "L", "Eva Yanti", "Afifuddin", "-"),
+
+    ("Fatia", "P", "Azimah", "Om Aris", "-"),
+    ("Azkia", "L", "Azimah", "Om Aris", "-"),
+    ("Rio", "L", "Azimah", "Om Aris", "-"),
+
+    ("Muhammad Taufik", "L", "Cek Niar", "Amiruddin", "-"),
+    ("Kamilna", "P", "Cek Niar", "Amiruddin", "-"),
+    ("Muhammad Arkan", "L", "Cek Niar", "Amiruddin", "-"),
+
 
     # Sepupu dari ibu
 

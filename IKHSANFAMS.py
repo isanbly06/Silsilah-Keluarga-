@@ -1,8 +1,9 @@
 class Orang:
-
     def __init__(self, nama, jenis_kelamin):
 
-        self.nama = nama
+        # FIX: Nama disimpan dalam format Title
+        self.nama = nama.title()
+
         self.jenis_kelamin = jenis_kelamin  # L / P
 
         self.ayah = None
@@ -11,21 +12,27 @@ class Orang:
 
         self.anak = []
 
-    # -----------------------------------------------------
+
 
     def tambah_anak(self, anak):
 
-        if anak not in self.anak:
-            self.anak.append(anak)
+        # FIX: Hindari duplikat anak
+        for a in self.anak:
+
+            if a.nama == anak.nama:
+                return
+
+        self.anak.append(anak)
 
 # CLASS SILSILAH KELUARGA
-
 class SilsilahKeluarga:
 
     def __init__(self):
 
         # Dictionary penyimpanan data orang
         self.data_orang = {}
+
+    # NORMALISASI NAMA
     def normalisasi_nama(self, nama):
 
         return nama.strip().lower()
@@ -50,7 +57,9 @@ class SilsilahKeluarga:
         nama_ibu=None
     ):
 
-        anak = self.data_orang.get(nama_anak)
+        anak = self.data_orang.get(
+            self.normalisasi_nama(nama_anak)
+        )
 
         if not anak:
             return
@@ -58,20 +67,21 @@ class SilsilahKeluarga:
         # AYAH
         if nama_ayah and nama_ayah != "-":
 
-            ayah = self.data_orang.get(nama_ayah)
+            ayah = self.data_orang.get(
+                self.normalisasi_nama(nama_ayah)
+            )
 
             if ayah:
 
                 anak.ayah = ayah
                 ayah.tambah_anak(anak)
 
-        # ---------------------------------------------
         # IBU
-        # ---------------------------------------------
-
         if nama_ibu and nama_ibu != "-":
 
-            ibu = self.data_orang.get(nama_ibu)
+            ibu = self.data_orang.get(
+                self.normalisasi_nama(nama_ibu)
+            )
 
             if ibu:
 
@@ -84,15 +94,20 @@ class SilsilahKeluarga:
         if nama1 == "-" or nama2 == "-":
             return
 
-        orang1 = self.data_orang.get(nama1)
-        orang2 = self.data_orang.get(nama2)
+        orang1 = self.data_orang.get(
+            self.normalisasi_nama(nama1)
+        )
+
+        orang2 = self.data_orang.get(
+            self.normalisasi_nama(nama2)
+        )
 
         if orang1 and orang2:
 
             orang1.pasangan = orang2
             orang2.pasangan = orang1
 
-    # MENAMPILKAN SELURUH DATA
+    # MENAMPILKAN SEMUA DATA
     def tampilkan_semua_data(self):
 
         print("\n===== DATA SELURUH KELUARGA =====")
@@ -114,21 +129,32 @@ Pasangan        : {pasangan}
     # MENAMPILKAN SILSILAH
     def tampilkan_silsilah(self, nama, level=0):
 
-        orang = self.data_orang.get(nama)
+        orang = self.data_orang.get(
+            self.normalisasi_nama(nama)
+        )
 
+        # FIX: Tambahkan pesan jika nama tidak ditemukan
         if not orang:
+
+            print("Nama tidak ditemukan.")
             return
 
         print("   " * level + f"├── {orang.nama}")
 
         for anak in orang.anak:
-            self.tampilkan_silsilah(anak.nama, level + 1)
+
+            # FIX: Normalisasi nama anak
+            self.tampilkan_silsilah(
+                self.normalisasi_nama(anak.nama),
+                level + 1
+            )
 
     # MENCARI AYAH
-
     def cari_ayah(self, nama):
 
-        orang = self.data_orang.get(nama)
+        orang = self.data_orang.get(
+            self.normalisasi_nama(nama)
+        )
 
         if orang and orang.ayah:
             return orang.ayah.nama
@@ -138,7 +164,9 @@ Pasangan        : {pasangan}
     # MENCARI IBU
     def cari_ibu(self, nama):
 
-        orang = self.data_orang.get(nama)
+        orang = self.data_orang.get(
+            self.normalisasi_nama(nama)
+        )
 
         if orang and orang.ibu:
             return orang.ibu.nama
@@ -146,10 +174,11 @@ Pasangan        : {pasangan}
         return "Tidak ditemukan"
 
     # MENCARI KAKEK
-
     def cari_kakek(self, nama, pihak=None):
 
-        orang = self.data_orang.get(nama)
+        orang = self.data_orang.get(
+            self.normalisasi_nama(nama)
+        )
 
         if not orang:
             return "Tidak ditemukan"
@@ -176,13 +205,14 @@ Pasangan        : {pasangan}
     # MENCARI NENEK
     def cari_nenek(self, nama, pihak=None):
 
-        orang = self.data_orang.get(nama)
+        orang = self.data_orang.get(
+            self.normalisasi_nama(nama)
+        )
 
         if not orang:
             return "Tidak ditemukan"
 
         # PIHAK AYAH
-
         if pihak == "ayah":
 
             if orang.ayah and orang.ayah.ibu:
@@ -202,16 +232,16 @@ Pasangan        : {pasangan}
         return "Tidak ditemukan"
 
     # MENCARI KAKEK BUYUT
-
     def cari_kakek_buyut(self, nama, pihak=None):
 
-        orang = self.data_orang.get(nama)
+        orang = self.data_orang.get(
+            self.normalisasi_nama(nama)
+        )
 
         if not orang:
             return "Tidak ditemukan"
 
         # PIHAK AYAH
-        # ayah -> ayah -> ayah
         if pihak == "ayah":
 
             if (
@@ -221,9 +251,8 @@ Pasangan        : {pasangan}
             ):
 
                 return orang.ayah.ayah.ayah.nama
-            
+
         # PIHAK IBU
-        # ibu -> ibu -> ayah
         elif pihak == "ibu":
 
             if (
@@ -239,13 +268,14 @@ Pasangan        : {pasangan}
     # MENCARI NENEK BUYUT
     def cari_nenek_buyut(self, nama, pihak=None):
 
-        orang = self.data_orang.get(nama)
+        orang = self.data_orang.get(
+            self.normalisasi_nama(nama)
+        )
 
         if not orang:
             return "Tidak ditemukan"
 
         # PIHAK AYAH
-        # ayah -> ayah -> ibu
         if pihak == "ayah":
 
             if (
@@ -257,7 +287,6 @@ Pasangan        : {pasangan}
                 return orang.ayah.ayah.ibu.nama
 
         # PIHAK IBU
-        # ibu -> ibu -> ibu
         elif pihak == "ibu":
 
             if (
@@ -273,7 +302,9 @@ Pasangan        : {pasangan}
     # MENCARI SAUDARA KANDUNG
     def cari_saudara_kandung(self, nama):
 
-        orang = self.data_orang.get(nama)
+        orang = self.data_orang.get(
+            self.normalisasi_nama(nama)
+        )
 
         if not orang:
             return []
@@ -297,7 +328,9 @@ Pasangan        : {pasangan}
     # MENCARI PAMAN
     def cari_paman(self, nama, pihak=None):
 
-        orang = self.data_orang.get(nama)
+        orang = self.data_orang.get(
+            self.normalisasi_nama(nama)
+        )
 
         if not orang:
             return []
@@ -331,10 +364,13 @@ Pasangan        : {pasangan}
 
         return hasil
 
+
     # MENCARI BIBI
     def cari_bibi(self, nama, pihak=None):
 
-        orang = self.data_orang.get(nama)
+        orang = self.data_orang.get(
+            self.normalisasi_nama(nama)
+        )
 
         if not orang:
             return []
@@ -368,6 +404,7 @@ Pasangan        : {pasangan}
 
         return hasil
 
+
     # MENCARI SEPUPU
     def cari_sepupu(self, nama, pihak=None):
 
@@ -380,7 +417,9 @@ Pasangan        : {pasangan}
 
         for nama_keluarga in keluarga:
 
-            orang = self.data_orang.get(nama_keluarga)
+            orang = self.data_orang.get(
+                self.normalisasi_nama(nama_keluarga)
+            )
 
             if orang:
 
@@ -389,21 +428,41 @@ Pasangan        : {pasangan}
 
         return hasil_sepupu
 
-    # MENAMBAHKAN ANGGOTA BARU
+
+    # TAMBAH ANGGOTA BARU
     def tambah_anggota_baru(self):
 
         print("\n===== TAMBAH ANGGOTA BARU =====")
 
-        nama = input("Nama: ")
-        jenis_kelamin = input("Jenis Kelamin (L/P): ")
+        nama = input("Nama: ").strip()
 
-        ayah = input("Nama Ayah (- jika tidak ada): ")
-        ibu = input("Nama Ibu (- jika tidak ada): ")
+        # FIX: Validasi nama kosong
+        if nama == "":
 
-        pasangan = input("Nama Pasangan (- jika tidak ada): ")
+            print("Nama tidak boleh kosong.")
+            return
+
+        jenis_kelamin = input(
+            "Jenis Kelamin (L/P): "
+        ).strip().upper()
+
+        ayah = input(
+            "Nama Ayah (- jika tidak ada): "
+        ).strip()
+
+        ibu = input(
+            "Nama Ibu (- jika tidak ada): "
+        ).strip()
+
+        pasangan = input(
+            "Nama Pasangan (- jika tidak ada): "
+        ).strip()
 
         # TAMBAH ORANG
-        self.tambah_orang(nama, jenis_kelamin)
+        self.tambah_orang(
+            nama,
+            jenis_kelamin
+        )
 
         # ATUR ORANG TUA
         self.atur_orang_tua(
@@ -415,11 +474,9 @@ Pasangan        : {pasangan}
         # ATUR PASANGAN
         if pasangan != "-":
 
-            if pasangan not in self.data_orang:
+            if self.normalisasi_nama(pasangan) not in self.data_orang:
 
-                print(
-                    "Pasangan belum ada di data."
-                )
+                print("Pasangan belum ada di data.")
 
             else:
 
@@ -430,15 +487,17 @@ Pasangan        : {pasangan}
 
         print("Data berhasil ditambahkan.")
 
-    # MEMPROSES INPUT NATURAL
+    # MEMPROSES INPUT NATURAl
     def proses_perintah(self, teks):
 
         teks = teks.lower()
 
-        # Kakek
+        # KAKEK
         if "kakek" in teks:
 
-            nama = input("Masukkan nama: ")
+            nama = input(
+                "Masukkan nama: "
+            ).strip()
 
             pihak = None
 
@@ -455,10 +514,12 @@ Pasangan        : {pasangan}
 
             print("Kakek:", hasil)
 
-        # Nenek
+        # NENEK
         elif "nenek" in teks:
 
-            nama = input("Masukkan nama: ")
+            nama = input(
+                "Masukkan nama: "
+            ).strip()
 
             pihak = None
 
@@ -475,10 +536,12 @@ Pasangan        : {pasangan}
 
             print("Nenek:", hasil)
 
-        # Paman
+        # PAMAN
         elif "paman" in teks:
 
-            nama = input("Masukkan nama: ")
+            nama = input(
+                "Masukkan nama: "
+            ).strip()
 
             pihak = None
 
@@ -495,10 +558,12 @@ Pasangan        : {pasangan}
 
             print("Paman:", hasil)
 
-        # Bibi
+        # BIBI
         elif "bibi" in teks:
 
-            nama = input("Masukkan nama: ")
+            nama = input(
+                "Masukkan nama: "
+            ).strip()
 
             pihak = None
 
@@ -515,10 +580,12 @@ Pasangan        : {pasangan}
 
             print("Bibi:", hasil)
 
-        # Sepupu
+        # SEPUPU
         elif "sepupu" in teks:
 
-            nama = input("Masukkan nama: ")
+            nama = input(
+                "Masukkan nama: "
+            ).strip()
 
             pihak = None
 
@@ -539,9 +606,11 @@ Pasangan        : {pasangan}
 
             print("Perintah tidak dikenali.")
 
+
 # MEMBUAT OBJECT PROGRAM
 keluarga = SilsilahKeluarga()
 
+# DATA KELUARGA
 data_keluarga = [
     # PIHAK AYAH
     # Buyut dari kakek
@@ -581,6 +650,7 @@ data_keluarga = [
 
     ("Amiruddin", "L", "Abdul Hamid", "Aminah", "Cek Niar"),
     ("Cek Niar", "P", "-", "-", "Amiruddin"),
+
 
     # PIHAK IBU
     # Buyut dari kakek
@@ -725,14 +795,16 @@ while True:
 9. Cari paman
 10. Cari bibi
 11. Cari sepupu
-12. Tambah anggota keluarga
-13. Input perintah natural
-14. Keluar
+12. Cari saudara kandung
+13. Tambah anggota keluarga
+14. Input perintah natural
+15. Keluar
 
 =================================================
 """)
 
     pilihan = input("Pilih menu: ")
+
 
     # MENU 1
     if pilihan == "1":
@@ -742,14 +814,16 @@ while True:
     # MENU 2
     elif pilihan == "2":
 
-        nama = input("Masukkan nama root keluarga: ")
+        nama = input(
+            "Masukkan nama root keluarga: "
+        ).strip()
 
         keluarga.tampilkan_silsilah(nama)
 
     # MENU 3
     elif pilihan == "3":
 
-        nama = input("Masukkan nama: ")
+        nama = input("Masukkan nama: ").strip()
 
         hasil = keluarga.cari_ayah(nama)
 
@@ -758,7 +832,7 @@ while True:
     # MENU 4
     elif pilihan == "4":
 
-        nama = input("Masukkan nama: ")
+        nama = input("Masukkan nama: ").strip()
 
         hasil = keluarga.cari_ibu(nama)
 
@@ -767,9 +841,12 @@ while True:
     # MENU 5
     elif pilihan == "5":
 
-        nama = input("Masukkan nama: ")
+        nama = input("Masukkan nama: ").strip()
 
-        pihak = input("Pihak (ayah/ibu): ")
+        # FIX: Lowercase pihak
+        pihak = input(
+            "Pihak (ayah/ibu): "
+        ).strip().lower()
 
         hasil = keluarga.cari_kakek(
             nama,
@@ -781,9 +858,11 @@ while True:
     # MENU 6
     elif pilihan == "6":
 
-        nama = input("Masukkan nama: ")
+        nama = input("Masukkan nama: ").strip()
 
-        pihak = input("Pihak (ayah/ibu): ")
+        pihak = input(
+            "Pihak (ayah/ibu): "
+        ).strip().lower()
 
         hasil = keluarga.cari_nenek(
             nama,
@@ -795,9 +874,11 @@ while True:
     # MENU 7
     elif pilihan == "7":
 
-        nama = input("Masukkan nama: ")
+        nama = input("Masukkan nama: ").strip()
 
-        pihak = input("Pihak (ayah/ibu): ")
+        pihak = input(
+            "Pihak (ayah/ibu): "
+        ).strip().lower()
 
         hasil = keluarga.cari_kakek_buyut(
             nama,
@@ -809,9 +890,11 @@ while True:
     # MENU 8
     elif pilihan == "8":
 
-        nama = input("Masukkan nama: ")
+        nama = input("Masukkan nama: ").strip()
 
-        pihak = input("Pihak (ayah/ibu): ")
+        pihak = input(
+            "Pihak (ayah/ibu): "
+        ).strip().lower()
 
         hasil = keluarga.cari_nenek_buyut(
             nama,
@@ -823,9 +906,11 @@ while True:
     # MENU 9
     elif pilihan == "9":
 
-        nama = input("Masukkan nama: ")
+        nama = input("Masukkan nama: ").strip()
 
-        pihak = input("Pihak (ayah/ibu): ")
+        pihak = input(
+            "Pihak (ayah/ibu): "
+        ).strip().lower()
 
         hasil = keluarga.cari_paman(
             nama,
@@ -837,9 +922,11 @@ while True:
     # MENU 10
     elif pilihan == "10":
 
-        nama = input("Masukkan nama: ")
+        nama = input("Masukkan nama: ").strip()
 
-        pihak = input("Pihak (ayah/ibu): ")
+        pihak = input(
+            "Pihak (ayah/ibu): "
+        ).strip().lower()
 
         hasil = keluarga.cari_bibi(
             nama,
@@ -851,9 +938,11 @@ while True:
     # MENU 11
     elif pilihan == "11":
 
-        nama = input("Masukkan nama: ")
+        nama = input("Masukkan nama: ").strip()
 
-        pihak = input("Pihak (ayah/ibu): ")
+        pihak = input(
+            "Pihak (ayah/ibu): "
+        ).strip().lower()
 
         hasil = keluarga.cari_sepupu(
             nama,
@@ -865,17 +954,37 @@ while True:
     # MENU 12
     elif pilihan == "12":
 
-        keluarga.tambah_anggota_baru()
+        nama = input("Masukkan nama: ").strip()
+
+        hasil = keluarga.cari_saudara_kandung(nama)
+
+        print("\nSaudara Kandung:")
+
+        if hasil:
+
+            for s in hasil:
+                print("-", s.nama)
+
+        else:
+
+            print("Tidak ditemukan.")
 
     # MENU 13
     elif pilihan == "13":
 
-        teks = input("Masukkan perintah: ")
+        keluarga.tambah_anggota_baru()
+
+    # MENU 14
+    elif pilihan == "14":
+
+        teks = input(
+            "Masukkan perintah: "
+        )
 
         keluarga.proses_perintah(teks)
 
-    # MENU Exit
-    elif pilihan == "14":
+    # MENU EXIT
+    elif pilihan == "15":
 
         print("Program selesai.")
         break

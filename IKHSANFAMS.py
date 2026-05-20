@@ -26,9 +26,14 @@ class SilsilahKeluarga:
 
         # Dictionary penyimpanan data orang
         self.data_orang = {}
+    def normalisasi_nama(self, nama):
+
+        return nama.strip().lower()
 
     # MENAMBAHKAN ORANG
     def tambah_orang(self, nama, jenis_kelamin):
+
+        nama = self.normalisasi_nama(nama)
 
         if nama not in self.data_orang:
 
@@ -538,20 +543,20 @@ Pasangan        : {pasangan}
 keluarga = SilsilahKeluarga()
 
 data_keluarga = [
-# Pihak Ayah
-# Kakek dan Nenek buyut dari dari Kakek
+    # PIHAK AYAH
+    # Buyut dari kakek
     ("Tgk. Husein", "L", "-", "-", "Fatimah"),
-    ("Fatimah", "P", "-", "-", "Tgk Husein"),
-    
-# Kakek dan Nenek buyut dari dari nenek
-    ("sayed Mahmud", "L", "-", "-", "Hawa"),
+    ("Fatimah", "P", "-", "-", "Tgk. Husein"),
+
+    # Buyut dari nenek
+    ("Sayed Mahmud", "L", "-", "-", "Hawa"),
     ("Hawa", "P", "-", "-", "Sayed Mahmud"),
 
-# Kakek dan Nenek 
+    # Kakek dan Nenek
     ("Abdul Hamid", "L", "Tgk. Husein", "Fatimah", "Aminah"),
     ("Aminah", "P", "Sayed Mahmud", "Hawa", "Abdul Hamid"),
 
-# Paman dan Bibi
+    # SAUDARA AYAH (PAMAN & BIBI)
     ("Ridwan", "L", "-", "-", "Fauziah"),
     ("Fauziah", "P", "Abdul Hamid", "Aminah", "Ridwan"),
 
@@ -567,7 +572,6 @@ data_keluarga = [
     ("Wak Laili", "P", "-", "-", "Salahuddin"),
 
     ("Zulfadli", "L", "Abdul Hamid", "Aminah", "Badriah Kamaruddin"),
-    ("Badriah Kamaruddin", "P", "Teuku Kamaruddin", "Fatimah Syam", "Zulfadli"),
 
     ("Afifuddin", "L", "Abdul Hamid", "Aminah", "Eva Yanti"),
     ("Eva Yanti", "P", "-", "-", "Afifuddin"),
@@ -578,24 +582,23 @@ data_keluarga = [
     ("Amiruddin", "L", "Abdul Hamid", "Aminah", "Cek Niar"),
     ("Cek Niar", "P", "-", "-", "Amiruddin"),
 
-    # Pihak Ibu
-# Kakek dan Nenek buyut dari kakek
+    # PIHAK IBU
+    # Buyut dari kakek
     ("Teuku Ahmad", "L", "-", "-", "Cut Aminah"),
     ("Cut Aminah", "P", "-", "-", "Teuku Ahmad"),
-    
-# Kakek dan Nenek buyut dari nenek
+
+    # Buyut dari nenek
     ("Tgk. Sarong", "L", "-", "-", "Cut Syahkubandi"),
     ("Cut Syahkubandi", "P", "-", "-", "Tgk. Sarong"),
 
-# Kakek dan Nenek 
+    # Kakek dan Nenek
     ("Teuku Kamaruddin", "L", "Teuku Ahmad", "Cut Aminah", "Fatimah Syam"),
     ("Fatimah Syam", "P", "Tgk. Sarong", "Cut Syahkubandi", "Teuku Kamaruddin"),
 
-    # Paman dan Bibi
+    # SAUDARA IBU (PAMAN & BIBI)
     ("Sudarso", "L", "-", "-", "Safrana"),
     ("Safrana", "P", "Teuku Kamaruddin", "Fatimah Syam", "Sudarso"),
 
-    ("Zulfadli", "L", "Abdul Hamid", "Aminah", "Badriah Kamaruddin"),
     ("Badriah Kamaruddin", "P", "Teuku Kamaruddin", "Fatimah Syam", "Zulfadli"),
 
     ("Hasanul Basri", "L", "-", "-", "Safrinda"),
@@ -610,7 +613,14 @@ data_keluarga = [
     ("Armiadi", "L", "-", "-", "Cut Intan Fitriani"),
     ("Cut Intan Fitriani", "P", "Teuku Kamaruddin", "Fatimah Syam", "Armiadi"),
 
-    # Sepupu dari ayah
+    
+    # ORANG TUA 
+    ("Ikhsan Salsabily", "L", "Zulfadli", "Badriah Kamaruddin", "-"),
+    ("Muhammad Jabbal Raudhan", "L", "Zulfadli", "Badriah Kamaruddin", "-"),
+
+
+    # SEPUPU DARI PIHAK AYAH
+
     ("Mustaqin", "L", "Saifullah", "Syamsiah", "-"),
     ("Isnawati", "P", "Saifullah", "Syamsiah", "-"),
     ("Khalis", "L", "Saifullah", "Syamsiah", "-"),
@@ -622,24 +632,50 @@ data_keluarga = [
 
     ("Wina", "P", "Safruddin", "Wak Wi", "-"),
 
-    ("Muhammad Arif", "L", "Wak Laili", "Salahuddin", "-"),
-    ("Muhammad Reza", "L", "Wak Laili", "Salahuddin", "-"),
-    ("Muhammad Zahlul", "L", "Wak Laili", "Salahuddin", "-"),
+    ("Muhammad Arif", "L", "Salahuddin", "Wak Laili", "-"),
+    ("Muhammad Reza", "L", "Salahuddin", "Wak Laili", "-"),
+    ("Muhammad Zahlul", "L", "Salahuddin", "Wak Laili", "-"),
 
-    ("Raisa", "P", "Eva Yanti", "Afifuddin", "-"),
-    ("Salsabila", "P", "Eva Yanti", "Afifuddin", "-"),
-    ("Molvi", "L", "Eva Yanti", "Afifuddin", "-"),
+    ("Raisa", "P", "Afifuddin", "Eva Yanti", "-"),
+    ("Salsabila", "P", "Afifuddin", "Eva Yanti", "-"),
+    ("Molvi", "L", "Afifuddin", "Eva Yanti", "-"),
 
-    ("Fatia", "P", "Azimah", "Om Aris", "-"),
-    ("Azkia", "L", "Azimah", "Om Aris", "-"),
-    ("Rio", "L", "Azimah", "Om Aris", "-"),
+    ("Fatia", "P", "Om Aris", "Azimah", "-"),
+    ("Azkia", "L", "Om Aris", "Azimah", "-"),
+    ("Rio", "L", "Om Aris", "Azimah", "-"),
 
-    ("Muhammad Taufik", "L", "Cek Niar", "Amiruddin", "-"),
-    ("Kamilna", "P", "Cek Niar", "Amiruddin", "-"),
-    ("Muhammad Arkan", "L", "Cek Niar", "Amiruddin", "-"),
+    ("Muhammad Taufik", "L", "Amiruddin", "Cek Niar", "-"),
+    ("Kamilna", "P", "Amiruddin", "Cek Niar", "-"),
+    ("Muhammad Arkan", "L", "Amiruddin", "Cek Niar", "-"),
 
+    
+    # SEPUPU DARI PIHAK IBU
+    ("Sania Zahira", "P", "-", "-", "Evan Aditiya"),
+    ("Evan Aditiya", "L", "Sudarso", "Safrana", "Sania Zahira"),
 
-    # Sepupu dari ibu
+    ("Ikhsan", "L", "-", "-", "Chici Olivia"),
+    ("Chici Olivia", "P", "Sudarso", "Safrana", "Ikhsan"),
+
+    ("Nabila Alya", "P", "-", "-", "Muhammad Ridho Adiyatma"),
+    ("Muhammad Ridho Adiyatma", "L", "Sudarso", "Safrana", "Nabila Alya"),
+
+    ("Kak Meli", "P", "-", "-", "Fauzan Azima"),
+    ("Fauzan Azima", "L", "Hasanul Basri", "Safrinda", "Kak Meli"),
+
+    ("Mutmainnah", "P", "Hasanul Basri", "Safrinda", "-"),
+
+    ("Wardatul Jannati", "P", "Salamuddin", "Karimah", "-"),
+    ("Izzatul Fawaiz", "P", "Salamuddin", "Karimah", "-"),
+    ("Sulthanul Ikram", "L", "Salamuddin", "Karimah", "-"),
+    ("Zahratul Maskurah", "P", "Salamuddin", "Karimah", "-"),
+
+    ("Arnika Muksina", "P", "Teuku Kamaruzzaman", "Lili Yanti", "-"),
+    ("Miska", "P", "Teuku Kamaruzzaman", "Lili Yanti", "-"),
+    ("Teuku Jaber", "L", "Teuku Kamaruzzaman", "Lili Yanti", "-"),
+
+    ("Muhammad Alfata", "L", "Armiadi", "Cut Intan Fitriani", "-"),
+    ("Mutiara Nadhifa", "P", "Armiadi", "Cut Intan Fitriani", "-"),
+    ("Munira Iftinan", "P", "Armiadi", "Cut Intan Fitriani", "-")
 
 ]
 
